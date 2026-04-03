@@ -1,9 +1,13 @@
 package com.senac.gerenciamentoviagem
 
-data object RouteMain
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-data object RouteNovoLogin
-
-data object RouteEsqueciSenha
-
-data object RoutePrincipal
+@Serializable
+data object RouteMain: NavKey
+@Serializable
+data object RouteNovoLogin: NavKey
+@Serializable
+data object RouteEsqueciSenha: NavKey
+@Serializable
+data class RoutePrincipal(val email: String): NavKey

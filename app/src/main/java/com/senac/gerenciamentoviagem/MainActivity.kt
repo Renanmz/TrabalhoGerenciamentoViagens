@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.senac.gerenciamentoviagem.ui.theme.GerenciamentoViagemTheme
 
@@ -54,17 +55,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    val backStack = remember {
-        mutableStateListOf<Any>(RouteMain) //primeira rota
-    }
+    val backStack = rememberNavBackStack(RouteMain) //primeira rota
+
     NavDisplay(
         backStack = backStack,
         entryProvider = { key ->
             when (key) {
+
                 is RouteMain -> NavEntry(key) {
                     TelaMain(
                         onLogin = {
-                            backStack.add(RoutePrincipal)
+                            backStack.add(RoutePrincipal(it))
                         },
                         onCadastro = {
                             backStack.add(RouteNovoLogin)
@@ -73,6 +74,10 @@ fun MyApp() {
                             backStack.add(RouteEsqueciSenha)
                         }
                     )
+                }
+
+                is RoutePrincipal -> NavEntry(key) {
+                    Principal(email = key.email)
                 }
 
                 is RouteNovoLogin -> NavEntry(key) {
@@ -86,8 +91,9 @@ fun MyApp() {
                         backStack.removeLastOrNull()
                     })
                 }
+
                 else -> {
-                    NavEntry(Unit) { Text(text = "Invalid") }
+                    error("Unknown route: $key")
                 }
             }
         }

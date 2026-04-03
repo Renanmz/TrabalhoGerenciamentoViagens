@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Principal() {
+fun Principal(email: String) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -17,5 +17,6 @@ fun Principal() {
         modifier = Modifier.fillMaxSize()
     ){
         Text(text = "Menu")
+        Text(text = "${email}")
     }
 }

@@ -24,7 +24,7 @@ import com.senac.gerenciamentoviagem.ViewModel.LoginViewModel
 
 @Composable
 fun TelaMain(
-    onLogin: () -> Unit,
+    onLogin: (String) -> Unit,
     onCadastro: () -> Unit,
     onRecuperarSenha: () -> Unit,
     viewModel: LoginViewModel = viewModel()
@@ -47,13 +47,18 @@ fun TelaMain(
                 .padding(bottom = 16.dp)
         )
 
-        OutlinedTextField(modifier = Modifier.fillMaxWidth(), value = "", onValueChange = {}, label = { Text("Email") })
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = email,
+            onValueChange = { viewModel.onEmailChange(it) },
+            label = { Text("Email") }
+        )
         PasswordTextField(label = "Senha",
             senha = senha,
             onSenhaChange = { viewModel.onSenhaChange(it) })
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Button(onClick = onLogin,
+            Button(onClick = { onLogin(email) },
                 enabled = isEnabled) {
                 Text(text = "Login")
             }
